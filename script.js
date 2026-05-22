@@ -31,6 +31,8 @@ generateButton.addEventListener('click', async function(){
 
     const isInserted = await insertData(partialReference, clientInitials, subjectValue, addressValue);
     alert(isInserted);
+    const clientID = await getID(clientInitials);
+    consolelog(clientID);
 })
 
 async function checkInitials(initials){
@@ -39,8 +41,10 @@ async function checkInitials(initials){
     return data.unique;
 }
 
-function getID(){
-
+function getID(initials){
+    const response = await fetch(`https://referencenumber.onrender.com/getId?initials=${initials}`);
+    const data = await response.json();
+    return data;
 }
 
 async function insertData(reference, initials, subject, address){

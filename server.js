@@ -46,6 +46,20 @@ app.post ('/insert',async (req, res) => {
   }
 });
 
+app.get ('/getId', async(req, res) => {
+  try{
+    const initials = req.query.initials;
+    const result = await pool.query(
+    `SELECT id FROM referenceNumber WHERE UPPER(initials) LIKE UPPER($1)`,
+    [initials]
+    );
+    res.json(result.rows)
+  }catch(err){
+    console.error("Database operation failed:", err);
+    res.status(500).json({error: "Internal server error code 500" });
+  }
+})
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
