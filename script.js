@@ -30,11 +30,11 @@ generateButton.addEventListener('click', async function(){
     }
 
     const isInserted = await insertData(partialReference, clientInitials, subjectValue, addressValue);
-    console.log(isInserted);
+    alert(isInserted);
 })
 
 async function checkInitials(initials){
-    const response = await fetch(`http://localhost:3000/checkInitials?initials=${initials}`);
+    const response = await fetch(`https://referencenumber.onrender.com/checkInitials?initials=${initials}`);
     const data = await response.json();
     return data.unique;
 }
@@ -46,12 +46,12 @@ function getID(){
 async function insertData(reference, initials, subject, address){
     const payload = {reference, initials, subject, address};
 
-    const response = await fetch('http://localhost:3000/insert',{
+    const response = await fetch('https://referencenumber.onrender.com/insert',{
         method:'POST',
         headers:{'Content-Type': 'application/json' },
         body: JSON.stringify(payload) 
     });
     const data =  await response.json();
 
-    return data.success;
+    return data.message;
 }

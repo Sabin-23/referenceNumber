@@ -42,7 +42,7 @@ app.post ('/insert',async (req, res) => {
     res.json({ success: true, message: "Data successfully inserted!", data: result.rows[0] });
   } catch(err){
     console.error("Database operation failed:", err);
-    res.status(500).json({ success: false, error: "Internal server error code 500" });
+    res.status(500).json({ success: false, message:"Data not inserted!", error: "Internal server error code 500" });
   }
 });
 
