@@ -1,38 +1,57 @@
 const generateButton = document.querySelector('.letter-preview button');
-generateButton.addEventListener('click', function(){
+generateButton.addEventListener('click', async function(){
     const clientName = document.querySelector('.search-wrapper input').value.trim();
     const dateValue = document.querySelector('.filter-group input').value;
     const subjectValue = document.querySelector('.letter-subject input').value;
     const addressValue = document.querySelector('.letter-address textarea').value;
-    console.log(subjectValue,addressValue);
 
     const [year, month, day]= dateValue.split('-');
 
-    
+    const partialReference = `ACA/${month}/${year}`;
+
     let clientNameArray = clientName.split(' ');
     let clientInitials = '';
     for (let i = 0 ; i < clientNameArray.length; i++){
         clientInitials += clientNameArray[i][0].toUpperCase();
     }
-    console.log(clientInitials);
-    /*
-    if (checkInitials(clientInitials)){
-        let referenceNumber = `ACA/${month}/${year}/${clientInitials}`;
-        insertData();
+    
+    let isUnique = await checkInitials(clientInitials);
+
+    if (!isUnique){
+        console.log(`Initials ${clientInitials} are taken. Adding ... `);
+
+        const lastName = clientNameArray[clientNameArray.length - 1 ];
+
+        if (lastName && lastName.length > 1) {
+            clientInitials += lastName[1].toUpperCase();
+        } else {
+            clientInitials += '2';
+        }
     }
-    */
+
+    const isInserted = await insertData(partialReference, clientInitials, subjectValue, addressValue);
+    console.log(isInserted);
 })
 
 async function checkInitials(initials){
     const response = await fetch(`http://localhost:3000/checkInitials?initials=${initials}`);
     const data = await response.json();
-    
+    return data.unique;
 }
 
 function getID(){
 
 }
 
-function insertData(){
+async function insertData(reference, initials, subject, address){
+    const payload = {reference, initials, subject, address};
 
+    const response = await fetch('http://localhost:3000/insert',{
+        method:'POST',
+        headers:{'Content-Type': 'application/json' },
+        body: JSON.stringify(payload) 
+    });
+    const data =  await response.json();
+
+    return data.success;
 }
