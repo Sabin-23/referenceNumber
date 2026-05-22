@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reference Number</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <style>
+         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #f4f3ef;
+            --surface: #ffffff;
+            --border: #e0ddd6;
+            --accent: #1a1a2e;
+            --accent-light: #e8e7ff;
+            --text-primary: #1a1a2e;
+            --text-muted: #7a7a8c;
+            --highlight: #4f46e5;
+            --row-hover: #f9f8ff;
+            --radius: 10px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+      
+        .letter-preview {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .letter-address {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-width: 300px;
+        }
+        .letter-address label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .letter-address textarea {
+            width: 100%;
+            height: 80px;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: inherit;
+            resize: none;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .letter-subject {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .letter-subject label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .letter-subject input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="nav-wrapper" id="navWrapper">
+            <div class="nav-center">
+                <h3>Generate Reference Number</h3>
+            </div>
+            <button onclick="logout()" class="btn-logout">Logout</button>
+        </div>
+    </nav>
+
+    <div class="page-content">
+      <div class="filter-bar">
+        <div class="filter-group">
+          <input type="date" id="refDate" >
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="search-wrapper">
+          <input type="text" id="heroSearch" placeholder="Client Name" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="letter-preview">
+        <div class="letter-subject">
+                <label for="letterSub">Subject</label>
+                <input type="text" id="letterSub" placeholder="e.g., Reason" value="RE: " autocomplete="off">
+        </div>
+            
+        <div class="letter-address">
+            <label for="letterAddress">Receiver's Address</label>
+            <textarea id="letterAddress" placeholder="Client Name / Company&#10;Email&#10;Phone, Website, City"></textarea>
+        </div>
+
+        <button>
+            <i class="fa-solid fa-magnifying-glass"></i> Generate
+        </button>
+    </div>
+</body>
+</html>
