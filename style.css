@@ -159,3 +159,25 @@ body {
   border-color: var(--highlight);
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
+.modal {
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: -1;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal.open {
+  opacity: 1; visibility: visible; pointer-events: auto; z-index: 999;
+}
+.modal .auth-container {
+  background: #fff; width: 350px; padding: 2rem; border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15); text-align: center; margin: 2rem auto;
+}
+.modal .auth-container button {
+  padding: 12px; background: #ff69b4; border: none; border-radius: 8px; color: white;
+  font-size: 1rem; cursor: pointer; transition: 0.3s;
+}

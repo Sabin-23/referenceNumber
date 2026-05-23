@@ -85,6 +85,29 @@
             font-weight: bold;
             color: var(--text-primary);
         }
+        .success-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #f0fdf4; /* Light green */
+        border: 1px solid #bbf7d0;
+        color: #166534;
+        padding: 16px;
+        border-radius: 8px;
+        max-width: 450px;
+        font-family: sans-serif;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        .success-content {
+            display: flex;
+            align-items: center;
+        }
+        .success-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            color: #16a34a;
+        }
     </style>
 </head>
 <body>
@@ -125,5 +148,20 @@
             <i class="fa-solid fa-magnifying-glass"></i> Generate
         </button>
     </div>
+
+    <div class="modal" id="modal">
+        <div class="auth-container">
+            <div class="success-box">
+                <div class="success-content">
+                    <svg class="success-icon" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Success! Client Reference ID is: <strong id="strong"></strong></span>
+                </div>
+            </div>
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
+
 </body>
 </html>

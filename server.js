@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const { Pool, Result } = require('pg');
 const cors = require('cors');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(cors());
@@ -12,7 +14,53 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-app.get('/checkInitials', async (req, res) => {
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'No token provided' });
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ error: 'Invalid or expired token' });
+    req.user = user;
+    next();
+  });
+}
+
+app.post('/login', async(req, res) => {
+  const { username, passkey } = req.body;
+  
+  const result = await pool.query(
+    `SELECT profile_id, username, hash_pin
+    FROM profile WHERE username = $1`,
+      [username.trim()]
+  );
+
+
+  if (!result.rows.length) {
+      return res.status(401).json({ error: 'Invalid username or password' });
+  }
+
+  const user = result.rows[0];
+  const hashedPassword = crypto
+    .createHash('sha256')
+    .update(passkey)
+    .digest('hex');
+  
+
+  if (hashedPassword !== user.hash_pin) {
+    return res.status(401).json({
+      error: 'Invalid username or password'
+    });
+  }
+  const token = jwt.sign(
+    { id: user.profile_id, username: user.username },
+    JWT_SECRET,
+    { expiresIn: '8h' }
+  );
+  res.json({ token });
+  
+});
+
+app.get('/checkInitials',verifyToken, async (req, res) => {
   const initials = req.query.initials;
 
   const result = await pool.query(
@@ -29,7 +77,7 @@ app.get('/checkInitials', async (req, res) => {
 
 });
 
-app.post ('/insert',async (req, res) => {
+app.post ('/insert',verifyToken, async (req, res) => {
   try{
     const { reference, initials, subject, address } = req.body;
     
@@ -46,7 +94,7 @@ app.post ('/insert',async (req, res) => {
   }
 });
 
-app.get ('/getId', async(req, res) => {
+app.get ('/getId',verifyToken, async(req, res) => {
   try{
     const initials = req.query.initials;
     const result = await pool.query(
