@@ -84,7 +84,7 @@ app.post ('/insert',verifyToken, async (req, res) => {
     const { reference, initials, subject, address, clientName } = req.body;
     
     const result = await pool.query(
-      `INSERT INTO referenceNumber(partial_reference, initials, subject, receiver_address, clientName) values ($1,$2,$3,$4)
+      `INSERT INTO referenceNumber(partial_reference, initials, subject, receiver_address, clientname) values ($1,$2,$3,$4,$5)
       RETURNING *;`,
       [reference, initials, subject, address, clientName ]
     );
