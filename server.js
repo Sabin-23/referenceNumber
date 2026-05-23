@@ -81,12 +81,12 @@ app.get('/checkInitials',verifyToken, async (req, res) => {
 
 app.post ('/insert',verifyToken, async (req, res) => {
   try{
-    const { reference, initials, subject, address } = req.body;
+    const { reference, initials, subject, address, clientName } = req.body;
     
     const result = await pool.query(
-      `INSERT INTO referenceNumber(partial_reference, initials, subject, receiver_address) values ($1,$2,$3,$4)
+      `INSERT INTO referenceNumber(partial_reference, initials, subject, receiver_address, clientName) values ($1,$2,$3,$4)
       RETURNING *;`,
-      [reference, initials, subject, address]
+      [reference, initials, subject, address, clientName ]
     );
 
     res.json({ success: true, message: "Data successfully inserted!", data: result.rows[0] });

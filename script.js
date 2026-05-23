@@ -26,8 +26,8 @@ async function getID(initials){
     return data[0].id;
 }
 
-async function insertData(reference, initials, subject, address){
-    const payload = {reference, initials, subject, address};
+async function insertData(reference, initials, subject, address, clientName){
+    const payload = {reference, initials, subject, address, clientName};
 
     const response = await fetch('https://referencenumber.onrender.com/insert',{
         method:'POST',
@@ -101,8 +101,7 @@ generateButton.addEventListener('click', async function(){
         }
     }
 
-    const isInserted = await insertData(partialReference, clientInitials, subjectValue, addressValue);
-    console.log(isInserted);
+    const isInserted = await insertData(partialReference, clientInitials, subjectValue, addressValue, clientName);
     const clientID = await getID(clientInitials);
     
     const finalreferenceID = `${clientID}/${partialReference}/${clientInitials}`;
