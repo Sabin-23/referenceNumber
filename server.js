@@ -4,12 +4,25 @@ const { Pool, Result } = require('pg');
 const cors = require('cors');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 app.use(cors());
 app.use(express.json()); 
+app.use(limiter);
 
 const JWT_SECRET = process.env.JWT_SECRET;
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,  
+  max: 100,                   
+  message: { error: 'Too many requests, please try again later.' }
+});
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,  
+  max: 10,                    
+  message: { error: 'Too many login attempts, please try again later.' }
+});
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -27,7 +40,7 @@ function verifyToken(req, res, next) {
   });
 }
 
-app.post('/login', async(req, res) => {
+app.post('/login', loginLimiter, async(req, res) => {
   const { username, passkey } = req.body;
   
   const result = await pool.query(
