@@ -125,7 +125,7 @@ app.get('/search',verifyToken,async(req,res)=>{
   try{
     const name = req.query.name;
     const result = await pool.query(
-      `SELECT * from referenceNumber where UPPER(clientName) lIKE UPPER($1)`,
+      `SELECT LPAD(id::text, 4, '0') as id, partial_reference, initials, subject, receiver_address, created_at, clientname from referenceNumber where UPPER(clientName) lIKE UPPER($1)`,
       [`%${name}%`]
     );
     
