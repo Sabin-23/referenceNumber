@@ -1,0 +1,16 @@
+.cards-grid { display: flex; flex-direction: column; gap: 10px; padding: 1.5rem; max-width: 860px; margin: 0 auto; }
+
+.ref-card { background: #fff; border: 1px solid #e8e6e0; border-radius: 14px; padding: 1rem 1.25rem; display: grid; grid-template-columns: auto 1fr auto; gap: 0 16px; align-items: center; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s; animation: fadeUp 0.2s ease both; }
+.ref-card:hover { border-color: #c0bdb6; box-shadow: 0 4px 16px rgba(0,0,0,0.07); transform: translateY(-1px); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.ref-id { font-family: monospace; font-size: 11px; color: #7a7a6e; background: #f5f5f5; padding: 4px 10px; border-radius: 6px; border: 1px solid #e8e6e0; white-space: nowrap; }
+
+.ref-body { min-width: 0; }
+.ref-name { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ref-subject { font-size: 12px; color: #7a7a6e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.ref-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+.ref-date { font-family: monospace; font-size: 11px; color: #b0afa8; white-space: nowrap; }
+.ref-initial { font-family: monospace; font-size: 11px; font-weight: 500; background: #fde8e4; color: #a33a25; padding: 2px 8px; border-radius: 4px; }

@@ -39,13 +39,14 @@ async function insertData(reference, initials, subject, address, clientName){
     return data.message;
 }
 
-const clientInput = document.querySelector('.search-wrapper input');
-const dateInput = document.querySelector('.filter-group input');
-const subjectInput = document.querySelector('.letter-subject input');
-const addressInput = document.querySelector('.letter-address textarea');
-const generateButton = document.querySelector('.letter-preview button');
+const clientInput = document.getElementById('heroSearch');
+const dateInput = document.getElementById('refDate');
+const subjectInput = document.getElementById('letterSub');
+const addressInput = document.getElementById('letterAddress');
+const generateButton = document.querySelector('.btn-generate');
 const closeBtn = document.getElementById("closeModal");
 const modal = document.getElementById("modal");
+const searchbtn = document.getElementById('search-btn');
 
 function resetForm() {
   clientInput.value = '';
@@ -76,6 +77,7 @@ generateButton.addEventListener('click', async function(){
     const dateValue = dateInput.value;
     const subjectValue = subjectInput.value;
     const addressValue = addressInput.value;
+    generateButton.textContent='Generating Number..';
 
     const [year, month, day]= dateValue.split('-');
 
@@ -109,6 +111,7 @@ generateButton.addEventListener('click', async function(){
     referenceStrong.textContent = finalreferenceID;
     modal.style.display = 'flex';
     modal.classList.add('open');
+    generateButton.textContent='Generate';
 })
 
 function logout() {
@@ -116,3 +119,8 @@ function logout() {
   sessionStorage.clear();
   window.location.href = '/login/index.html';
 }
+
+searchbtn.addEventListener('click', function(e){
+    e.preventDefault();
+    window.location.href='/search/index.html';
+})

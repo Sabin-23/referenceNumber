@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reference Number</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="/images/cropped-Best-law-firm-in-region-32x32.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
     <style>
@@ -89,7 +93,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background-color: #f0fdf4; /* Light green */
+        background-color: #f0fdf4; 
         border: 1px solid #bbf7d0;
         color: #166534;
         padding: 16px;
@@ -114,49 +118,90 @@
     <nav id="navbar">
         <div class="nav-wrapper" id="navWrapper">
             <div class="nav-center">
-                <h3>Generate Reference Number</h3>
+                <h3>Reference Number</h3>
             </div>
-            <button onclick="logout()" class="btn-logout">Logout</button>
+            <div class="nav-actions">
+                <button id="search-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i> Search
+                </button>
+                <button onclick="logout()" class="btn-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
         </div>
     </nav>
 
-    <div class="page-content">
-      <div class="filter-bar">
-        <div class="filter-group">
-          <input type="date" id="refDate" >
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="search-wrapper">
-          <input type="text" id="heroSearch" placeholder="Client Name" autocomplete="off">
-        </div>
+    <div class="hero-banner">
+        <p class="hero-eyebrow">Abayo & Co. Advocates</p>
+        <h1>Generate Reference Number</h1>
+        <p>Fill in the details below to create a new reference entry.</p>
     </div>
 
-    <div class="letter-preview">
-        <div class="letter-subject">
-                <label for="letterSub">Subject</label>
-                <input type="text" id="letterSub" placeholder="e.g., Reason" value="RE: " autocomplete="off">
+    <div class="page-content">
+ 
+        <div class="form-grid">
+ 
+            <!-- LEFT CARD — Reference Details -->
+            <div class="form-card">
+                <div class="form-card-label">
+                    <i class="fa-solid fa-hashtag"></i>
+                    Reference details
+                </div>
+ 
+                <div class="field">
+                    <label for="refDate">Date</label>
+                    <input type="date" id="refDate">
+                </div>
+ 
+                <div class="field">
+                    <label for="heroSearch">Client name</label>
+                    <input type="text" id="heroSearch" placeholder="e.g. Manzi " autocomplete="off">
+                </div>
+            </div>
+ 
+            <!-- RIGHT CARD — Letter Content -->
+            <div class="form-card">
+                <div class="form-card-label">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                    Letter content
+                </div>
+ 
+                <div class="field">
+                    <label for="letterSub">Subject</label>
+                    <input type="text" id="letterSub" placeholder="e.g. RE: Legal services" value="RE: " autocomplete="off">
+                </div>
+ 
+                <div class="field">
+                    <label for="letterAddress">Receiver's address</label>
+                    <textarea id="letterAddress" placeholder="Name / Company&#10;Email&#10;Phone · City"></textarea>
+                </div>
+            </div>
+ 
         </div>
-            
-        <div class="letter-address">
-            <label for="letterAddress">Receiver's Address</label>
-            <textarea id="letterAddress" placeholder="Client Name / Company&#10;Email&#10;Phone, Website, City"></textarea>
+        <div class="generate-bar">
+            <div class="generate-bar-hint">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>All fields will be saved and a reference ID will be assigned automatically.</span>
+            </div>
+            <button class="btn-generate">
+                <i class="fa-solid fa-bolt"></i> Generate
+            </button>
         </div>
-
-        <button>
-            <i class="fa-solid fa-magnifying-glass"></i> Generate
-        </button>
     </div>
 
     <div class="modal" id="modal">
         <div class="auth-container">
+            <div class="modal-icon">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <p class="modal-title">Reference generated</p>
+            <p class="modal-sub">Your reference number has been created successfully.</p>
             <div class="success-box">
                 <div class="success-content">
                     <svg class="success-icon" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
-                    <span>Success! Client Reference ID is: <strong id="strong"></strong></span>
+                    <span>Reference ID: <strong id="strong"></strong></span>
                 </div>
             </div>
             <button id="closeModal">Close</button>

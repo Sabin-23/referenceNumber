@@ -46,7 +46,6 @@ app.post('/login', async(req, res) => {
     .createHash('sha256')
     .update(passkey)
     .digest('hex');
-  console.log(hashedPassword);
 
   if (hashedPassword !== user.hash_pin) {
     return res.status(401).json({
