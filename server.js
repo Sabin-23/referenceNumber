@@ -112,7 +112,7 @@ app.get ('/getId',verifyToken, async(req, res) => {
   try{
     const initials = req.query.initials;
     const result = await pool.query(
-    `SELECT id FROM referenceNumber WHERE UPPER(initials) LIKE UPPER($1)`,
+    `SELECT LPAD(id::text, 4, '0') as id FROM referenceNumber WHERE UPPER(initials) LIKE UPPER($1)`,
     [initials]
     );
     res.json(result.rows)
