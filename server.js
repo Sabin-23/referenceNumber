@@ -9,7 +9,7 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 app.use(cors());
 app.use(express.json()); 
-app.use(limiter);
+
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -23,7 +23,7 @@ const loginLimiter = rateLimit({
   max: 10,                    
   message: { error: 'Too many login attempts, please try again later.' }
 });
-
+app.use(limiter);
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
