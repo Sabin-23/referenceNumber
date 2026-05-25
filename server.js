@@ -109,7 +109,20 @@ app.get ('/getId',verifyToken, async(req, res) => {
     res.status(500).json({error: "Internal server error code 500" });
   }
 })
-
+app.get('/search',verifyToken,async(req,res)=>{
+  try{
+    const name = req.query.name;
+    const result = await pool.query(
+      `SELECT * from referenceNumber where UPPER(clientName) lIKE UPPER($1)`,
+      [`%${name}%`]
+    );
+    
+    res.json (result.rows);
+  }catch(err){
+    console.error("Database operation failed:", err);
+    res.status(500).json({error: "Internal server error code 500" });
+  }
+})
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
