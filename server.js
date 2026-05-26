@@ -74,23 +74,6 @@ app.post('/login', loginLimiter, async(req, res) => {
   
 });
 
-app.get('/checkInitials',verifyToken, async (req, res) => {
-  const initials = req.query.initials;
-
-  const result = await pool.query(
-    `SELECT COUNT(*)::int FROM referenceNumber WHERE UPPER(initials) LIKE UPPER($1)`,
-    [initials]
-  );
-  const count = result.rows[0].count;
-
-  if (count === 0) {
-    res.json({ unique: true, count: 0, message: "Initials are available" });
-  } else {
-    res.json({ unique: false, count: count, message: "Initials already exist" });
-  }
-
-});
-
 app.post ('/insert',verifyToken, async (req, res) => {
   try{
     const { reference, initials, subject, address, clientName } = req.body;
@@ -108,19 +91,6 @@ app.post ('/insert',verifyToken, async (req, res) => {
   }
 });
 
-app.get ('/getId',verifyToken, async(req, res) => {
-  try{
-    const initials = req.query.initials;
-    const result = await pool.query(
-    `SELECT LPAD(id::text, 4, '0') as id FROM referenceNumber WHERE UPPER(initials) LIKE UPPER($1)`,
-    [initials]
-    );
-    res.json(result.rows)
-  }catch(err){
-    console.error("Database operation failed:", err);
-    res.status(500).json({error: "Internal server error code 500" });
-  }
-})
 app.get('/search',verifyToken,async(req,res)=>{
   try{
     const name = req.query.name;
