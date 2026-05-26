@@ -76,12 +76,12 @@ app.post('/login', loginLimiter, async(req, res) => {
 
 app.post ('/insert',verifyToken, async (req, res) => {
   try{
-    const { reference, initials, subject, address, clientName } = req.body;
+    const { reference, initials, subject, address, clientName, year } = req.body;
     
     const result = await pool.query(
-      `INSERT INTO referenceNumber(partial_reference, initials, subject, receiver_address, clientname) values ($1,$2,$3,$4,$5)
+      `INSERT INTO referenceNumber(id, ref_year, partial_reference, initials, subject, receiver_address, clientname) values ((SELECT COALESCE(MAX(id), 0) + 1 FROM referenceNumber WHERE ref_year = $1),$1,$2,$3,$4,$5,$6)
       RETURNING *;`,
-      [reference, initials, subject, address, clientName ]
+      [year, reference, initials, subject, address, clientName]
     );
 
     res.json({ success: true, message: "Data successfully inserted!", data: result.rows[0] });
