@@ -2,7 +2,7 @@ const token = localStorage.getItem('token');
 
 document.addEventListener('DOMContentLoaded', () => {
   if (!token) {
-    window.location.href = '/login/index.html';
+    window.location.href = '/login';
   }
 });
 

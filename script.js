@@ -2,7 +2,7 @@ const token = localStorage.getItem('token');
 
 document.addEventListener('DOMContentLoaded', () => {
   if (!token) {
-    window.location.href = '/login/index.html';
+    window.location.href = '/login';
   }
 });
 
@@ -82,10 +82,10 @@ generateButton.addEventListener('click', async function(){
 function logout() {
   localStorage.removeItem('token');
   sessionStorage.clear();
-  window.location.href = '/login/index.html';
+  window.location.href = '/login';
 }
 
 searchbtn.addEventListener('click', function(e){
     e.preventDefault();
-    window.location.href='/search/index.html';
+    window.location.href='/search';
 })
