@@ -6,26 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-async function checkInitials(initials){
-    const response = await fetch(`https://referencenumber.onrender.com/checkInitials?initials=${initials}`,{
-        headers: {
-        'Authorization': `Bearer ${token}`
-        }
-    });
-    const data = await response.json();
-    return data.unique;
-}
-
-async function getID(initials){
-    const response = await fetch(`https://referencenumber.onrender.com/getId?initials=${initials}`,{
-        headers: {
-        'Authorization': `Bearer ${token}`
-        }
-    });
-    const data = await response.json();
-    return data[0].id;
-}
-
 async function insertData(reference, initials, subject, address, clientName){
     const payload = {reference, initials, subject, address, clientName};
 
@@ -36,7 +16,7 @@ async function insertData(reference, initials, subject, address, clientName){
     });
     const data =  await response.json();
 
-    return data.message;
+    return data.data;
 }
 
 const clientInput = document.getElementById('heroSearch');
@@ -88,25 +68,10 @@ generateButton.addEventListener('click', async function(){
     for (let i = 0 ; i < clientNameArray.length; i++){
         clientInitials += clientNameArray[i][0].toUpperCase();
     }
-    
-    let isUnique = await checkInitials(clientInitials);
-
-    if (!isUnique){
-        console.log(`Initials ${clientInitials} are taken. Adding ... `);
-
-        const lastName = clientNameArray[clientNameArray.length - 1 ];
-
-        if (lastName && lastName.length > 1) {
-            clientInitials += lastName[1].toUpperCase();
-        } else {
-            clientInitials += '2';
-        }
-    }
 
     const isInserted = await insertData(partialReference, clientInitials, subjectValue, addressValue, clientName);
-    const clientID = await getID(clientInitials);
     
-    const finalreferenceID = `${clientID}/${partialReference}/${clientInitials}`;
+    const finalreferenceID = `${String(isInserted.id).padStart(4,'0')}/${partialReference}/${clientInitials}`;
     const referenceStrong = document.getElementById('strong');
     referenceStrong.textContent = finalreferenceID;
     modal.style.display = 'flex';

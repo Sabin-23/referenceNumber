@@ -195,22 +195,37 @@
  
             /* individual card styles expected from script.js */
             .ref-card {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                padding: 0;
+                cursor: pointer;
                 background: var(--surface);
                 border: 1px solid var(--border);
                 border-radius: var(--radius);
-                padding: 1rem 1.25rem;
-                display: grid;
-                grid-template-columns: auto 1fr auto;
-                gap: 0 16px;
-                align-items: center;
-                cursor: pointer;
+                overflow: hidden;
                 transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
                 animation: fadeUp 0.2s ease both;
-            }
+            }   
             .ref-card:hover {
                 border-color: #c5c2bb;
                 box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-                transform: translateY(-1px);
+                transform: translateY(-2px);
+            }
+            .ref-card-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.75rem 1.25rem;
+                background: var(--bg);
+                border-bottom: 1px solid var(--border);
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+            .ref-header-right {
+                display: flex;
+                align-items: center;
+                gap: 8px;
             }
             .ref-card:active { transform: scale(0.99); }
  
@@ -221,14 +236,13 @@
  
             .ref-id {
                 font-family: 'DM Mono', monospace;
-                font-size: 11px;
-                color: var(--text-muted);
-                background: var(--bg);
-                padding: 4px 10px;
-                border-radius: 6px;
-                border: 1px solid var(--border);
-                white-space: nowrap;
+                font-size: 12px;
+                font-weight: 500;
+                color: var(--accent);
                 letter-spacing: 0.04em;
+                background: none;
+                border: none;
+                padding: 0;
             }
             .ref-body { min-width: 0; }
             .ref-name {
@@ -258,17 +272,55 @@
                 font-family: 'DM Mono', monospace;
                 font-size: 11px;
                 color: var(--text-hint);
-                white-space: nowrap;
+                display: flex;
+                align-items: center;
+                gap: 5px;
             }
             .ref-initial {
                 font-family: 'DM Mono', monospace;
                 font-size: 11px;
-                font-weight: 500;
+                font-weight: 600;
                 background: #fde8e4;
                 color: #a33a25;
-                padding: 2px 8px;
+                padding: 3px 10px;
                 border-radius: 4px;
                 letter-spacing: 0.05em;
+            }
+            .ref-card-body {
+                padding: 1rem 1.25rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.65rem;
+            }
+            .ref-address {
+                color: var(--text-muted);
+                font-size: 13px;
+                line-height: 1.7;
+            }
+            .ref-row {
+                display: grid;
+                grid-template-columns: 140px 1fr;
+                gap: 8px;
+                align-items: center;
+            }
+            .ref-label {
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.07em;
+                color: var(--text-hint);
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding-top: 1px;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            .ref-label i { color: var(--primary); font-size: 12px; }
+            .ref-value {
+                font-size: 13.5px;
+                color: var(--text-dark);
+                line-height: 1.5;
             }
  
             mark {
@@ -312,7 +364,7 @@
         </nav>
 
         <section class="hero">
-            <h1><span class="hero-by">Search by</span><br><span class="hero-name">Client Name</span></h1>
+            <h1><span class="hero-by">Search by</span><br><span class="hero-name">Law Firm Personnel Name</span></h1>
             <p>Find any reference number instantly.</p>
             <div class="hero-search">
                 <input type="text" id="heroSearch" placeholder="Search by client name ..." autocomplete="off">
