@@ -67,3 +67,21 @@ function renderTable(data){
     `).join('');
     searchbtn.textContent = 'Search';
 }
+
+async function downloadExcel() {
+    const response = await fetch('https://referencenumber.onrender.com/export', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    if (!response.ok) throw new Error('Download failed');
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ABAYO & Co Advocates Reference Numbers_${new Date().toISOString().slice(0,10)}.xlsx`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+}
