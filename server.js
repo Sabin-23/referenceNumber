@@ -109,7 +109,7 @@ app.get('/search',verifyToken,async(req,res)=>{
 app.get('/export', verifyToken,  async (req, res) =>{
   try{
     const result = await pool.query(
-      `SELECT id, partial_reference, initials, clientname, subject, receiver_address, created_at 
+      `SELECT id, partial_reference, initials, subject, receiver_address, created_at 
        FROM referenceNumber ORDER BY id ASC`
     );
     const workbook = new ExcelJS.Workbook();
@@ -130,7 +130,6 @@ app.get('/export', verifyToken,  async (req, res) =>{
     result.rows.forEach(row => {
       sheet.addRow({
         reference: `${String(row.id).padStart(4,'0')}/${row.partial_reference}/${row.initials}`,
-        clientname: row.clientname,
         subject: row.subject,
         receiver_address: row.receiver_address,
         created_at: row.created_at ? row.created_at.toISOString().split('T')[0] : ''
