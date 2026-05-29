@@ -116,7 +116,6 @@ app.get('/export', verifyToken,  async (req, res) =>{
     const sheet = workbook.addWorksheet('ABAYO & Co Advocates Reference Numbers');
     sheet.columns = [
       { header: 'Reference Number',  key: 'reference',         width: 25 },
-      { header: 'Client Name',       key: 'clientname',        width: 30 },
       { header: 'Subject',           key: 'subject',           width: 40 },
       { header: 'Receiver Address',  key: 'receiver_address',  width: 35 },
       { header: 'Date',              key: 'created_at',        width: 18 },
