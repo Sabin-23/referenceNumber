@@ -5,6 +5,7 @@ const cors = require('cors');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const rateLimit = require('express-rate-limit');
+const ExcelJS = require('exceljs');
 
 const app = express();
 app.use(cors());
@@ -103,6 +104,59 @@ app.get('/search',verifyToken,async(req,res)=>{
   }catch(err){
     console.error("Database operation failed:", err);
     res.status(500).json({error: "Internal server error code 500" });
+  }
+})
+app.get('/export', verifyToken,  async (req, res) =>{
+  try{
+    const result = await pool.query(
+      `SELECT id, partial_reference, initials, clientname, subject, receiver_address, created_at 
+       FROM referenceNumber ORDER BY id ASC`
+    );
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('ABAYO & Co Advocates Reference Numbers');
+    sheet.columns = [
+      { header: 'Reference Number',  key: 'reference',         width: 25 },
+      { header: 'Client Name',       key: 'clientname',        width: 30 },
+      { header: 'Subject',           key: 'subject',           width: 40 },
+      { header: 'Receiver Address',  key: 'receiver_address',  width: 35 },
+      { header: 'Date',              key: 'created_at',        width: 18 },
+    ];
+
+    sheet.getRow(1).eachCell(cell => {
+      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1a1a2e' } };
+      cell.alignment = { vertical: 'middle', horizontal: 'center' };
+    });
+
+    result.rows.forEach(row => {
+      sheet.addRow({
+        reference: `${String(row.id).padStart(4,'0')}/${row.partial_reference}/${row.initials}`,
+        clientname: row.clientname,
+        subject: row.subject,
+        receiver_address: row.receiver_address,
+        created_at: row.created_at ? row.created_at.toISOString().split('T')[0] : ''
+      });
+    });
+
+    sheet.eachRow((row, rowNumber) => {
+      if (rowNumber > 1) {
+        row.eachCell(cell => {
+          cell.fill = {
+            type: 'pattern', pattern: 'solid',
+            fgColor: { argb: rowNumber % 2 === 0 ? 'FFF5F5F5' : 'FFFFFFFF' }
+          };
+        });
+      }
+    });
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename=ReferenceNumbers.xlsx');
+    await workbook.xlsx.write(res);
+    res.end();
+
+  }catch(err){
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 })
 const PORT = process.env.PORT || 3000;
