@@ -215,6 +215,7 @@ input[type="date"] { font-family: 'DM Mono', monospace; font-size: 13px; cursor:
     box-shadow: 0 4px 16px rgba(235,103,83,0.35);
 }
 .btn-generate:active { transform: scale(0.97); }
+.btn-generate:disabled{ background-color: #cccc; cursor: not-allowed;}
 .modal {
     display: none;
     position: fixed;

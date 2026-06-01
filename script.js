@@ -39,6 +39,7 @@ if (closeBtn && modal) {
     closeBtn.addEventListener('click', () => {
     modal.style.display = 'none';
     modal.classList.remove('open');
+    generateButton.disabled = false;
     resetForm();
     });
 }
@@ -48,6 +49,7 @@ if (modal) {
     if (e.target === modal) {
         modal.style.display = 'none';
         modal.classList.remove('open');
+        generateButton.disabled = false;
     }
     });
 }
@@ -57,7 +59,10 @@ generateButton.addEventListener('click', async function(){
     const dateValue = dateInput.value;
     const subjectValue = subjectInput.value;
     const addressValue = addressInput.value;
-    generateButton.textContent='Generating Number..';
+    generateButton.innerHTML = `
+        <i class="fa-solid fa-bolt"></i> Generating Number...
+    `;
+    generateButton.disabled = true;
 
     const [year, month, day]= dateValue.split('-');
 
@@ -76,7 +81,9 @@ generateButton.addEventListener('click', async function(){
     referenceStrong.textContent = finalreferenceID;
     modal.style.display = 'flex';
     modal.classList.add('open');
-    generateButton.textContent='Generate';
+    generateButton.innerHTML = `
+        <i class="fa-solid fa-bolt"></i> Generate
+    `;
 })
 
 function logout() {
